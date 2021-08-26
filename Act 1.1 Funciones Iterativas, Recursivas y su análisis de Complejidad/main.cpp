@@ -1,9 +1,9 @@
-/*
- * main.cpp
- *
- *  Created on: 07/10/2020
- *      Author: bvaldesa
- */
+//
+// main.cpp
+//
+//  Created on: 25/08/2021
+//      Author: Angel Rico
+//
 
 #include <iostream>
 #include "funciones.h"
