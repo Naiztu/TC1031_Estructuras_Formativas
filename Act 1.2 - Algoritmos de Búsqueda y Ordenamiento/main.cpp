@@ -1,9 +1,9 @@
-/*
- * main.cpp
- *
- *  Created on: 10/08/2020
- *      Author: bvaldesa
- */
+//
+// main.h
+//
+//  Created on: 01/09/2021
+//      Author: Angel Rico
+//
 
 #include <iostream>
 #include <string>

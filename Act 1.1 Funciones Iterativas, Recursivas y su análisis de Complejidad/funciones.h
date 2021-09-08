@@ -10,7 +10,7 @@
 
 class Funciones{
 	public:
-		funciones(){}
+		Funciones(){}
 		int sumaIterativa(int);
 		int sumaRecursiva(int);
 		int sumaDirecta(int);
@@ -54,7 +54,7 @@ int Funciones::sumaIterativa(int n){
  *
  */
 int Funciones::sumaRecursiva(int n){
-	if(n==1) return 1;
+	if(n==0) return 0;
 	return n + sumaRecursiva(n-1);
 }
 
