@@ -91,3 +91,5 @@ int main(int argc, char* argv[]) {
 	cout << "\n" <<"10.- esperada "  << -1  << " programa " << sorts.busqBinaria(prueba, 197) << "\n";
 	cout <<	(-1 == sorts.busqBinaria(prueba, 197) ? "success\n" : "fail\n");
 }
+
+// g++ sorts.h main.cpp 
