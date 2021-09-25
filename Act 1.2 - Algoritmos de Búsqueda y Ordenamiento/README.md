@@ -19,4 +19,8 @@ El algoritmo empleado en esta función, solo necesita ejecutar una operación bo
 
 
 ## Búsqueda Binaria
+<<<<<<< HEAD
 El algoritmo empleado en esta función, necesita encontrar a un valor requerido, después de cada operación, los pasos se reducen a la mitad conforme se acerca al valor, por eso se denomina con complejidad O(Log(n))
+=======
+El algoritmo empleado en esta función, necesita encontrar a un valor requerido, después de cada operación, los pasos se reducen a la mitad conforme se acerca al valor, por eso se denomina con complejidad O(Log(n))
+>>>>>>> 8026417dff22297a3970b1ec786d00da124c8c14
