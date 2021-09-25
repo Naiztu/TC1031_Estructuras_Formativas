@@ -12,28 +12,6 @@
 
 using namespace std;
 
-
-/* Agregar un metodo toString a su clase.h
-
-template <class T>
-std::string List<T>::toString() const {
-	std::stringstream aux;
-	Link<T> *p;
-
-	p = head;
-	aux << "[";
-	while (p != 0) {
-		aux << p->value;
-		if (p->next != 0) {
-			aux << ", ";
-		}
-		p = p->next;
-	}
-	aux << "]";
-	return aux.str();
-}
-*/
-
 int main(int argc, char* argv[]) {
 	List<int> b1;
 	string ans;
@@ -71,8 +49,8 @@ int main(int argc, char* argv[]) {
 	cout << "\n" <<"7.- esperada " << ans << "\n programa " << b1.toString() << "\n";
 	cout <<	(!ans.compare(b1.toString()) ? "success\n" : "fail\n");
 
-	b1.deleteAt(1);
-	ans = "[13, 32]";
+	b1.deleteAt(2);
+	ans = "[13, 6]";
 	cout << "\n" <<"8.- esperada " << ans << "\n programa " << b1.toString() << "\n";
 	cout <<	(!ans.compare(b1.toString()) ? "success\n" : "fail\n");
 
