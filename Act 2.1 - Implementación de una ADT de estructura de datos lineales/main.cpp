@@ -49,8 +49,8 @@ int main(int argc, char* argv[]) {
 	cout << "\n" <<"7.- esperada " << ans << "\n programa " << b1.toString() << "\n";
 	cout <<	(!ans.compare(b1.toString()) ? "success\n" : "fail\n");
 
-	b1.deleteAt(2);
-	ans = "[13, 6]";
+	b1.deleteAt(1);
+	ans = "[13, 32]";
 	cout << "\n" <<"8.- esperada " << ans << "\n programa " << b1.toString() << "\n";
 	cout <<	(!ans.compare(b1.toString()) ? "success\n" : "fail\n");
 
