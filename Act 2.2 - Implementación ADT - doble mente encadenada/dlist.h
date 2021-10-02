@@ -1,8 +1,8 @@
 /*
  * dlist.h
  *
- *  Created on: 10/08/2015
- *      Author: pperezm
+ *  Created on: 27/09/2021
+ *      Author: Angel Rico
  */
 
 #ifndef DLIST_H_
