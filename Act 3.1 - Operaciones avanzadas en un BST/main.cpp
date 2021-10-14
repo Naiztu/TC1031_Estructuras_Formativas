@@ -1,9 +1,10 @@
 /*
  * main.cpp
  *
- *  Created on: 04/10/2021
- *      Author: bvaldesa
+ *  Created on: 10/10/2021
+ *      Author: Angel Rico
  */
+
 #include <iostream>
 #include <sstream>
 #include <cstring>

@@ -23,13 +23,15 @@ private:
 public:
 	Node(T);
 	void add(T);
+	void removeChilds();
+	bool find(T val);
 	void inorder(std::stringstream&) const;
 	void preorder(std::stringstream&) const;
 	void postorder(std::stringstream&) const;
 	void levelbylevel(std::stringstream&, int) const;
 	void ancestors(T, std::stringstream&) const;
 	int height(int) const;
-	int whatlevelamI(T,int) const;
+	int whatlevelamI(T) const;
 	friend class BST<T>;
 };
 
@@ -50,6 +52,31 @@ void Node<T>::add(T val) {
 		} else {
 			right = new Node<T>(val);
 		}
+	}
+}
+
+template <class T>
+void Node<T>::removeChilds() {
+	if (left != 0) {
+		left->removeChilds();
+		delete left;
+		left = 0;
+	}
+	if (right != 0) {
+		right->removeChilds();
+		delete right;
+		right = 0;
+	}
+}
+
+template <class T>
+bool Node<T>::find(T val) {
+	if (val == value) {
+		return true;
+	} else if (val < value) {
+		return (left != 0 && left->find(val));
+	} else if (val > value) {
+		return (right != 0 && right->find(val));
 	}
 }
 
@@ -152,18 +179,14 @@ int Node<T>::height(int a) const{
 }
 
 template <class T>
-int Node<T>::whatlevelamI(T val,int nivel) const{
-	if (val == value) {
-		return nivel;
-	} else if (val < value) {
-		if(left != 0){
-			left->whatlevelamI(val, nivel+1);
-		} else return -1;
-	} else if (val > value) {
-		if(right != 0){
-			right->whatlevelamI(val, nivel+1);
-		} else return -1;
-	}
+int Node<T>::whatlevelamI(T val) const{
+	if (val == value) return 1;
+    if (val < value) {
+        if (left != 0) return left->whatlevelamI(val) + 1;
+    } else {
+        if (right != 0) return right->whatlevelamI(val) + 1;
+    }
+    return -1;
 }
 
 template <class T>
@@ -172,6 +195,8 @@ private:
 	Node<T> *root;
 
 	bool empty() const;
+	void removeAll();
+
 	std::string inorder() const;
 	std::string preorder() const;
 	std::string postorder() const;
@@ -196,6 +221,15 @@ BST<T>::~BST() {
 }
 
 template <class T>
+void BST<T>::removeAll() {
+	if (root != 0) {
+		root->removeChilds();
+	}
+	delete root;
+	root = 0;
+}
+
+template <class T>
 bool BST<T>::empty() const {
 	return (root == 0);
 }
@@ -216,10 +250,9 @@ std::string BST<T>::inorder() const {
 	std::stringstream aux;
 
 	aux << "[";
-	if (!empty()) {
-		root->inorder(aux);
-	}
+	if (!empty()) root->inorder(aux);
 	aux << "]";
+
 	return aux.str();
 }
 
@@ -228,10 +261,9 @@ std::string BST<T>::preorder() const {
 	std::stringstream aux;
 
 	aux << "[";
-	if (!empty()) {
-		root->preorder(aux);
-	}
+	if (!empty()) root->preorder(aux);
 	aux << "]";
+	
 	return aux.str();
 }
 
@@ -250,10 +282,9 @@ std::string BST<T>::postorder() const{
 	std::stringstream aux;
 
 	aux << "[";
-	if (!empty()) {
-		root->postorder(aux);
-	}
+	if (!empty()) root->postorder(aux);
 	aux << "]";
+	
 	return aux.str();
 }
 
@@ -271,40 +302,28 @@ std::string BST<T>::levelbylevel() const{
 		}
 	}
 	aux << "]";
-	return aux.str();
 
+	return aux.str();
 }
 
 template <class T>
 int BST<T>::height() const{
-	if (!empty()){
-		 return root -> height(1);
-	}
+	if (!empty()) return root -> height(1);
+	return 0;
 }
 
 template <class T>
 std::string BST<T>::ancestors(T val){
 	std::stringstream aux;
 	aux << "[";
-	if (!empty()){
-		root -> ancestors(val,aux);
-	}
+	if (!empty() && root->find(val)) root -> ancestors(val,aux);
 	aux << "]";
 	return aux.str();
 }
 
 template <class T>
 int BST<T>::whatlevelamI(T val) const{
-	if (val == root -> value) {
-		return 1;
-	} else if (val < root -> value) {
-		if(root -> left != 0){
-			root -> left -> whatlevelamI(val, 2);
-		} else return -1;
-	} else if (val > root -> value) {
-		if( root -> right != 0){
-			root -> right -> whatlevelamI(val, 2);
-		} else return -1;
-	}
+	int level = root -> whatlevelamI(val);
+  	return level;
 }
 #endif /* BST_H_ */
