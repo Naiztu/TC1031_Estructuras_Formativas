@@ -1,8 +1,8 @@
 /*
  * main.cpp
  *
- *  Created on: 10/08/2020
- *      Author: bvaldesa
+ *  Created on: 15/10/2021
+ *      Author: Angel Rico
  */
 #include <iostream>
 #include <sstream>
@@ -11,20 +11,6 @@
 #include "heap.h"
 
 using namespace std;
-
-/* Agregue en tu heap.h el metodo to string
-
-template <class T>
-std::string Heap<T>::toString() const {
-	std::stringstream aux;
-	aux << "[";	for (unsigned int i = 0; i < count; i++) {
-		if (i != 0) {
-			aux << " ";
-		} aux << data[i];
-	} aux << "]";
-	return aux.str();
-}
-*/
 
 int main(int argc, char* argv[]) {
 	Heap<int> heap(20);
