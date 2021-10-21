@@ -80,14 +80,21 @@ Node<T>* Node<T>::find(T val){
 
 template <class T>
 Node<T>* Node<T>::succesor(){
-    Node<T> *ri;
-
-	ri = right;
+    Node<T> *ri, *le;
+    
+    ri = right;
+    le = left;
 
 	if (right->left == 0) {
 		right = right->right;
 		ri->right = 0;
 		return ri;
+	}
+
+    if (left->right == 0) {
+		left = left->right;
+		le->left = 0;
+		return le;
 	}
 
 	Node<T> *parent, *child;
