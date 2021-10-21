@@ -22,8 +22,7 @@ class Node{
         Node* rot_right(Node*);
         Node* rot_left(Node*);
         Node* splay(Node*, Node*);
-        Node* succesor_r();
-        Node* succesor_l();
+        Node* succesor();
         void removeChilds();
         void print_tree(std::stringstream&) const;
         void preorder(std::stringstream&) const;
@@ -80,36 +79,7 @@ Node<T>* Node<T>::find(T val){
 }
 
 template <class T>
-Node<T>* Node<T>::succesor_r(){
-    Node<T> *le, *ri;
-
-    if(right == 0) return 0;
-
-	le = left;
-	ri = right;
-
-    if(left == 0)  return ri;
-
-	if (right->left == 0) {
-		right = right->right;
-		ri->right = 0;
-		return ri;
-	}
-
-	Node<T> *parent, *child;
-	parent = right;
-	child = right->left;
-	while (child->left != 0) {
-		parent = child;
-		child = child->left;
-	}
-	parent->left = child->right;
-	child->right = 0;
-	return child;
-}
-
-template <class T>
-Node<T>* Node<T>::succesor_l(){
+Node<T>* Node<T>::succesor(){
     Node<T> *le, *ri;
 
     if(left==0) return 0;
@@ -144,20 +114,27 @@ Node<T>* Node<T>::remove(){
 		left->parent = parent;
         return left;
     } else {
-        Node<T> *succ = succesor_l();
-        if (succ == 0) 
-            succ = succesor_r();
-        if(succ != 0){
-            succ->left = left;
-            succ->right = right;
-            succ->parent = parent;
-            if(succ->left != 0)
-                succ->left->parent = succ;
-            if(succ->right != 0)
-                succ->right->parent = succ;
-        }
+        Node<T> *succ = succesor();
+        succ->left = left;
+        succ->right = right;
+        succ->parent = parent;
+        if(succ->left != 0)
+            succ->left->parent = succ;
+        if(succ->right != 0)
+            succ->right->parent = succ;
         return succ;
     }
+}
+
+template <class T>
+int Node<T>::size(){
+    int l = 0, r = 0;
+    if (left != 0) l = left->size() + 1;
+    if (right != 0) r = right->size() + 1;
+    if ((right != 0) && (left != 0)) r-=1;
+    if (left == 0 && right == 0) return 1;
+    return r + l;
+
 }
 
 template <class T>
@@ -303,6 +280,7 @@ class SplayTree{
         void add(T);
         bool find(T);
         void remove(T);
+        int size();
         void removeAll();
         std::string inorder() const;
         std::string print_tree() const;
@@ -360,12 +338,20 @@ void SplayTree<T>::remove(T val){
 	if(!empty()){
         Node<T> *found = root->find(val);
         if(found != 0) {
+            Node<T> *aux = 0;
             root = root->splay(root, found);
-            Node<T> *aux = root->remove();
+            if(!((root->left == 0) && (root->right == 0)))
+                aux = root->remove();
             delete root;
             root = aux;
         }
     }
+}
+
+template <class T>
+int SplayTree<T>::size(){
+    if(!empty()) return root->size();
+    return 0;
 }
 
 template <class T>

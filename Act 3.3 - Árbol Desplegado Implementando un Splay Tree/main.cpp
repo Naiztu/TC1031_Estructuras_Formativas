@@ -18,7 +18,6 @@ int main(int argc, char* argv[]) {
 
   my_splay.add(15);
   in_ans =	"[15]";
-
 	cout << "\n" <<"1.- esperada " << in_ans << "\n programa " << my_splay.inorder() << "\n";
   cout <<	(!in_ans.compare(my_splay.inorder()) ? "success\n" : "fail\n");
 
