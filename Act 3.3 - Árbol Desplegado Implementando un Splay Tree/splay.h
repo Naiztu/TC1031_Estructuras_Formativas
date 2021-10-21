@@ -15,7 +15,7 @@ class Node{
         Node(T, Node*);
 
         Node* add(T);
-        Node* remove();
+        Node* remove(T);
         Node* find(T);
         int size();
 
@@ -80,50 +80,97 @@ Node<T>* Node<T>::find(T val){
 
 template <class T>
 Node<T>* Node<T>::succesor(){
-    Node<T> *le, *ri;
+    Node<T> *ri;
 
-    if(left==0) return 0;
-
-	le = left;
 	ri = right;
 
-    if(right == 0) {
-        left = le->left;
-        right = le->right;
-        return le;
-    } 
-	Node<T> *parent, *child;
-	parent = left;
-	child = left->right;
-	while (child->right != 0) {
-		parent = child;
-		child = child->right;
+	if (right->left == 0) {
+		right = right->right;
+		ri->right = 0;
+		return ri;
 	}
-	parent->right = child->left;
-	child->left = 0;
+
+	Node<T> *parent, *child;
+	parent = right;
+	child = right->left;
+	while (child->left != 0) {
+		parent = child;
+		child = child->left;
+	}
+	parent->left = child->right;
+	child->right = 0;
 	return child;
 }
 
 template <class T>
-Node<T>* Node<T>::remove(){
+Node<T>* Node<T>::remove(T val){
+    Node<T> *succ, *old;
+	if (val < value) {
+		if (left != 0) {
+			if (left->value == val) {
+				old = left;
+				if(old->left != 0 && old->right != 0){ 
+					succ = left->succesor();
+					if (succ != 0) {
+						succ->left = old->left;
+						succ->right = old->right;
+						succ->parent = old->parent;
+						if(succ->left)
+							succ->left->parent = succ;
+						if(succ->right)
+							succ->right->parent = succ;
+					}
+					left = succ;
+				} else if (old->right != 0){
+					old->right->parent = left->parent;
+					left = old->right;
 
-    if (left == 0 && right != 0) {
-		right->parent = parent;
-        return right;
-    }else if (right == 0 && left != 0) {
-		left->parent = parent;
-        return left;
-    } else {
-        Node<T> *succ = succesor();
-        succ->left = left;
-        succ->right = right;
-        succ->parent = parent;
-        if(succ->left != 0)
-            succ->left->parent = succ;
-        if(succ->right != 0)
-            succ->right->parent = succ;
-        return succ;
-    }
+				} else if (old->left != 0){
+					old->left->parent = left->parent;
+					left = old->left;
+				} else { 
+					left = 0;
+				}
+				delete old;
+				return this;
+			} else {
+				return left->remove(val);
+			}
+		}
+	} else if (val > value) {
+		if (right != 0) {
+			if (right->value == val) {
+				old = right;
+				if(old->left != 0 && old->right != 0){
+					succ = right->succesor();
+					if (succ != 0) {
+						succ->left = old->left;
+						succ->right = old->right;
+						succ->parent = old->parent;
+						if(succ->left)
+							succ->left->parent = succ;
+						if(succ->right)
+							succ->right->parent = succ;
+					}
+					right = succ;
+				} else if (old->right != 0){ 
+					old->right->parent = right->parent;
+					right = old->right;
+
+				} else if (old->left != 0){ 
+					old->left->parent = right->parent;
+					right = old->left;
+				} else { 
+					right = 0;
+				}
+				delete old;
+				return this;
+			} else {
+				return right->remove(val);
+			}
+		}
+	}
+	return this;
 }
 
 template <class T>
@@ -335,17 +382,25 @@ bool SplayTree<T>::find(T val){
 
 template <class T>
 void SplayTree<T>::remove(T val){
-	if(!empty()){
-        Node<T> *found = root->find(val);
-        if(found != 0) {
-            Node<T> *aux = 0;
-            root = root->splay(root, found);
-            if(!((root->left == 0) && (root->right == 0)))
-                aux = root->remove();
-            delete root;
-            root = aux;
-        }
-    }
+	if (root != 0) {
+		if (val == root->value) {
+			Node<T> *succ = root->succesor();
+			if (succ != 0) {
+					succ->left = root->left;
+					succ->right = root->right;
+					succ->parent = 0;
+					if(succ->left)
+						succ->left->parent = succ;
+					if(succ->right)
+						succ->right->parent = succ;
+			}
+			delete root;
+			root = succ;
+		} else {
+			Node<T>* p = root->remove(val);
+			root = root->splay(root,p);
+		}
+	}
 }
 
 template <class T>
