@@ -102,6 +102,7 @@ bool Quadratic<Key, Value>::put(Key k, Value v)  {
             if (keys[i] == initialValue) {
                 keys[i] = k;
                 values[i] = v;
+				count++;
                 return true;
             }
             i = (start + j * j) % size;
